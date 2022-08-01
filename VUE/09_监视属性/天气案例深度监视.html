@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../js/vue.js"></script>
+    <title>天气案例深度监视</title>
+</head>
+<body>
+    <!-- 
+        深度监视：
+            (1).Vue中的watch默认不监视对象中内部的改变（一层）。
+            (2).配置deep：true可以监视对象内部值改变（多层）。
+        备注：
+            (1):Vue自身可以监视对象内部值的变化，但Vue提供的watch属性默认不可以！
+            (2).使用watch时根据数据的具体结构，决定是否采用深度监视 。
+     -->
+    <!-- 准备好一个容器 -->
+    <div id="root">
+        <h2>今天天气很{{info}}</h2>
+        <!-- 绑定事件的时候@aaa="yyy",yyy可以写一些简单的语句 -->
+        <!-- <button @click="isHot=!isHot">切换天气</button> -->
+        <button @click="changeWeather">切换天气</button>
+        <hr>
+        <h2>a的值是:{{Numbers.a}}</h2>
+        <button @click="Numbers.a++">点我使a+1</button> <hr>
+        <h2>b的值是:{{Numbers.b}}</h2>
+        <button @click="Numbers.b++">点我使b+1</button>
+    </div>
+</body>
+<script>
+    Vue.config.productionTip = false//阻止Vue在启动时生成生产提示
+    const vm=new Vue({
+        el:'#root',
+        data:{
+            isHot:true,
+            Numbers:{
+                a:1,
+                b:1
+            }
+        },
+        computed:{
+            info(){
+                return this.isHot?'炎热':'凉爽'
+            }
+        },
+        methods: {
+            changeWeather(){
+                this.isHot=!this.isHot
+            }  
+        },
+        watch:{
+            isHot:{
+                // immediate:true,//初始化时让handler调用一下
+                //handler什么时候调用？当isHot发生改变时
+                handler(newValue,oldValue){
+                    console.log('isHot被修改了',newValue,oldValue)
+                },
+            },
+            //监视多级结构中某个属性的变化
+            // 'Numbers.a':{
+            //     handler(){
+            //         console.log('a被修改了')
+            //     }
+            // },
+            Numbers:{
+                deep:true,//监视多级结构中所有属性的变化
+                handler(){
+                    console.log("Number发生变化了！")
+                }
+            }
+        }
+    })
+</script>
+</html>

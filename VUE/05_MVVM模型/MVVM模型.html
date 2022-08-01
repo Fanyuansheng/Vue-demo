@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理解MVVM模型</title>
+    <script type="text/javascript " src="../js/vue.js"></script>
+</head>
+<body>
+    <!-- MVVM模型
+            1.M:模型(Model):data中的数据
+            2.V:视图(View) :模板代码
+            3.Vm:视图模型(ViewModel):Vue实例
+        观察发现
+            1.data中的所有属性及Vue原型上的所有属性,在Vue模板中可以直接使用. -->
+    <div id="root">
+        <h1>学校名称:{{name}}</h1>
+        <h1>学校地址:{{address}}</h1>
+    </div>
+
+    <script>
+        Vue.config.productionTip = false;
+        const vm=new Vue({
+            el:'#root',
+            data:{
+                name:'尚硅谷',
+                address:'北京市朝阳区'
+            }
+        })
+        console.log(vm)
+    </script>
+</body>
+</html>
